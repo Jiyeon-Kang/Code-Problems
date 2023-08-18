@@ -19,7 +19,6 @@ const NewsItemBlock = styled.div`
 
 const NewsList = ({category} ) => {
     const [loading, response, error] = usePromise(() => {
-        // props로 넘어온 state로 
         const query = category === 'all' ? '' : `&category=${category}`;
         return axios.get(
         `https://newsapi.org/v2/top-headlines?country=jp${query}&apiKey=912eb5849b2448f4ba8bd2254bdde456`,
@@ -37,7 +36,7 @@ const NewsList = ({category} ) => {
     }
     // エラーが発生した場合
     if (error) {
-        return <NewsItemBlock>에러 발생...</NewsItemBlock>;
+        return <NewsItemBlock>Error!</NewsItemBlock>;
     }
 
     const { articles } = response.data;
