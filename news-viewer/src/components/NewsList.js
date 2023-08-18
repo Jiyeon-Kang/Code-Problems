@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import NewsItem from "../NewsItem"
 import axios from "axios";
+import usePromise from "../lib/usePromise";
 
 const NewsItemBlock = styled.div`
     box-sizing: border-box;
@@ -17,41 +18,29 @@ const NewsItemBlock = styled.div`
 `;
 
 const NewsList = ({category} ) => {
-    const [ articles, setArticles ] = useState(null);
-    const [ loading , setLoading ] = useState(null);
+    const [loading, response, error] = usePromise(() => {
+        // props로 넘어온 state로 
+        const query = category === 'all' ? '' : `&category=${category}`;
+        return axios.get(
+        `https://newsapi.org/v2/top-headlines?country=jp${query}&apiKey=912eb5849b2448f4ba8bd2254bdde456`,
+    )       
+    }, [category])
 
-    useEffect(() => {
-        // async 비동기 함수호출
-        const fetchData = async () => {
-            // APi 호출 시간동안 보여줄 로딩바
-            setLoading(true)
-            // try catch문 에러 처리
-            try {
-                // props로 넘어온 state로 
-                const query = category === 'all' ? '' : `&category=${category}`;
-                const response = await axios.get(
-                    `https://newsapi.org/v2/top-headlines?country=jp${query}&apiKey=912eb5849b2448f4ba8bd2254bdde456`,
-                );
-                // API 데이터 state 저장
-                setArticles(response.data.articles)
-            } catch (e) {
-                console.log(e)
-            }
-            setLoading(false)
-        };
-        fetchData();
-    }, [category]);
 
     // 대기 중
     if (loading) {
-        return <NewsItemBlock>Loading...</NewsItemBlock>
+        return <NewsItemBlock>대기 중입니다...</NewsItemBlock>
     }
     // articles 값이 설정 안될경우 (null 오류방지)
-    if (!articles) {
+    if (!response) {
         return null;
     }
+    // 에러가 발생했을 떄
+    if (error) {
+        return <NewsItemBlock>에러 발생...</NewsItemBlock>;
+    }
 
-    // articles 같이 유효할 떄
+    const { articles } = response.data;
     return (
         <NewsItemBlock>
             {articles.map(v =>  (
@@ -61,4 +50,4 @@ const NewsList = ({category} ) => {
     );
 };
 
-export default NewsList;
+export default React.memo(NewsList);
