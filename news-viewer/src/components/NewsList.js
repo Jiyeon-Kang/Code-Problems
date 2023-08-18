@@ -27,15 +27,15 @@ const NewsList = ({category} ) => {
     }, [category])
 
 
-    // 대기 중
+    // 待機中
     if (loading) {
-        return <NewsItemBlock>대기 중입니다...</NewsItemBlock>
+        return <NewsItemBlock>Loading...</NewsItemBlock>
     }
-    // articles 값이 설정 안될경우 (null 오류방지)
+    // articlesが設定されていない場合 (nullエラー防止)
     if (!response) {
         return null;
     }
-    // 에러가 발생했을 떄
+    // エラーが発生した場合
     if (error) {
         return <NewsItemBlock>에러 발생...</NewsItemBlock>;
     }

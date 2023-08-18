@@ -3,12 +3,6 @@ import { Route } from 'react-router-dom'
 import NewsPage from './pages/NewsPage';
 
 const App = () => {
-
-  // // 기본 카테고리 state 선언
-  // const [category, setCategory] = useState('all')
-  // // 콜백으로 사용 할 카테고리 함수
-  // const onSelect = useCallback(Category => setCategory(Category), [])
-
   return <Route path="/:category?" component={NewsPage} />;
 };
 
