@@ -26,7 +26,7 @@ const NewsList = ({category} ) => {
     }, [category])
 
 
-    // 待機中
+    // ローディング中
     if (loading) {
         return <NewsItemBlock>Loading...</NewsItemBlock>
     }
