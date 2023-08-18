@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import NewsItem from "./NewsItem"
+import NewsItem from "../NewsItem"
 import axios from "axios";
 
 const NewsItemBlock = styled.div`
